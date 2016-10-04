@@ -25,6 +25,27 @@ function reducer(props, state = {}, action) {
     }
 }
 
+const styles = {
+    container: {
+        display: 'flex',
+        flexDirection: 'row',
+        flex: '1',
+        height: '100%'
+    },
+    timeline: {
+        flex: '1'
+    },
+    menu: {
+        flex: '0 0 18em',
+        order: '-1',
+        backgroundColor: 'lightBlue'
+    },
+    details: {
+        flex: '0 0 18em',
+        backgroundColor: 'pink'
+    }
+};
+
 // Component
 
 class Periscope extends React.Component {
@@ -60,8 +81,12 @@ class Periscope extends React.Component {
                   isVisible={true}
                   defaultSize={.5}
                   fluid={true}>
-                <div>Periscope Alive!</div>
-                <div>Another div!</div>
+                <div>Redux Periscope</div>
+                <div style={styles.container} >
+                    <div style={styles.menu} >MenuBar</div>
+                    <div style={styles.timeline} >Timeline!</div>
+                    <div style={styles.details} >DetailsBar</div>
+                </div>
             </Dock>
         );
     }
