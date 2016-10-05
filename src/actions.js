@@ -17,7 +17,7 @@ const groupChange = function(group) {
     };
 };
 
-const rateChange = function(rate) {
+const refreshChange = function(rate) {
     return {
         type: TIMELINE_REFRESH_CHANGE,
         refreshRate: rate
@@ -34,7 +34,7 @@ const rangeChange = function(range) {
 let ActionCreators = {
     groupChange,
     rangeChange,
-    rateChange
+    refreshChange
 };
 
 export { ActionCreators };

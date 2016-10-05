@@ -16,10 +16,9 @@ class Timeline extends React.Component {
     componentDidMount() {
         this.initTime = Date.now();
         this.appStates = this.timestampStates([], this.props.computedStates, this.initTime);
-        this.renderChart(this.appStates, this.initTime);
-        // Weave standard update time of 3 seconds        
-        this.interval = setInterval(() => this.renderChart(this.appStates, this.initTime), this.props.refreshRate);
-    }    
+        this.renderChart(this.appStates, this.initTime);    
+        this.renderLoop();
+    }
 
     componentWillReceiveProps(nextProps) {
         this.appStates = this.timestampStates(this.appStates, nextProps.computedStates, this.initTime);
@@ -33,6 +32,11 @@ class Timeline extends React.Component {
             return state;
         });
         this.renderChart(this.appStates, this.initTime);
+    }
+
+    renderLoop() {
+        this.renderChart(this.appStates, this.initTime);
+        setTimeout(() => this.renderLoop(), this.props.refreshRate);
     }
 
     timestampStates(currentStates, nextStates, initTime) {
@@ -102,8 +106,6 @@ class Timeline extends React.Component {
         if (this.props.groupBy !== 'all' && this.props.groupBy !== undefined) {
             chart.stack(true);
             states = this.groupStates(states, this.props.groupBy); 
-        } else {
-            
         }
 
         d3.select("#timeline").select('svg').remove();

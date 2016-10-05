@@ -1,18 +1,11 @@
 import React, { PropTypes } from 'react';
 import Collapsible from 'react-collapsible';
 import { ActionCreators } from '../actions.js';
-let { groupChange, rangeChange, rateChange } = ActionCreators;
+let { groupChange, rangeChange, refreshChange } = ActionCreators;
 
 class Menu extends React.Component {
    static propTypes = {
-        // toggleAction: PropTypes.func.isRequired,
         actionsById: PropTypes.object,
-
-        // reset: PropTypes.func.isRequired,
-        // commit: PropTypes.func.isRequired,
-        // rollback: PropTypes.func.isRequired,
-        // sweep: PropTypes.func.isRequired,
-
         dispatch: PropTypes.func
     };
 
