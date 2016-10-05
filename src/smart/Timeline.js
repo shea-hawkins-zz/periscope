@@ -18,7 +18,7 @@ class Timeline extends React.Component {
         this.appStates = this.timestampStates([], this.props.computedStates, this.initTime);
         this.renderChart(this.appStates, this.initTime);
         // Weave standard update time of 3 seconds        
-        setInterval(() => this.renderChart(this.appStates, this.initTime), 3000);
+        this.interval = setInterval(() => this.renderChart(this.appStates, this.initTime), this.props.refreshRate);
     }    
 
     componentWillReceiveProps(nextProps) {
@@ -74,20 +74,12 @@ class Timeline extends React.Component {
     }
 
     renderChart(states, initTime) {
-
         let colorScale = d3.scale.ordinal()
             .range(['#ffee00','#ef9b0f', '#6b0000'])
             .domain(['active','hover','inactive']);
-
-        // All of these settings could be controlled with slider   
-        let xStart = initTime;
         let xEnd = Date.now();
-        // To improve usability, the chart always moves on a 90 second range
-        // Range can be scalable after chart animations are in place
-        let xRange = 90000; 
-        if (xEnd - xStart >= 0) {
-            xStart = xEnd - xRange;
-        }
+        let xRange = this.props.xRange; 
+        let xStart = xEnd - xRange;
 
         // Must redeclare chart each render. Otherwise it runs into issues -- it must contain state of the previous data.
         let chart = d3.timeline()
