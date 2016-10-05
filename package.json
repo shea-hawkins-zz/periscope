@@ -22,7 +22,9 @@
   "dependencies": {
     "d3": "^3.4.3",
     "react": "^15.3.2",
+    "react-collapsible": "^1.2.0",
     "react-dock": "^0.2.3",
+    "react-json-tree": "^0.10.0",
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.4.5"
   },

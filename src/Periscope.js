@@ -2,7 +2,9 @@ import React, { PropTypes } from 'react';
 import { ActionCreators } from 'redux-devtools';
 import shouldPureComponentUpdate from 'react-pure-render/function';
 import Dock from 'react-dock';
+import MenuBar from './smart/Menu.js';
 import Timeline from './smart/Timeline.js';
+import StateDetails from './smart/StateDetails.js';
 
 const { reset, rollback, commit, sweep, toggleAction, jumpToState } = ActionCreators;
 
@@ -61,19 +63,8 @@ class Periscope extends React.Component {
     static propTypes = {
         computedStates: PropTypes.array.isRequired,
         currentStateIndex: PropTypes.number.isRequired,
-
-        // stagedActions: PropTypes.array.isRequired,
-        // skippedActions: PropTypes.object.isRequired,
-        // toggleAction: PropTypes.func.isRequired,
-        // actionsById: PropTypes.object,
-
-        // reset: PropTypes.func.isRequired,
-        // commit: PropTypes.func.isRequired,
-        // rollback: PropTypes.func.isRequired,
-        // sweep: PropTypes.func.isRequired,
-
+        actionsById: PropTypes.object,
         dispatch: PropTypes.func,
-
         periscopeState: PropTypes.shape({
             initialShow: PropTypes.boolean
         })
@@ -100,13 +91,21 @@ class Periscope extends React.Component {
                   dimMode='none' >
                 <div>Redux Periscope</div>
                 <div style={styles.container} >
-                    <div style={styles.menu} >MenuBar</div>
+                    <div style={styles.menu}>
+                        <Menu dispatch={this.props.dispatch}
+                              state={this.props.periscopeState} />
+                    </div>
                     <div style={styles.timeline} >
                         <Timeline computedStates={this.props.computedStates}
                                   jumpToState={this.jumpToState}
                                   currentStateIndex={this.props.currentStateIndex} />
                     </div>
-                    <div style={styles.details} >DetailsBar</div>
+                    <div style={styles.details} >
+                        <StateDetails computedStates={this.props.computedStates}
+                                      actionsById={this.props.actionsById}
+                                      currentStateIndex={this.props.currentStateIndex} />
+                                      
+                    </div>
                 </div>
             </Dock>
         );
