@@ -42,22 +42,26 @@ class Menu extends React.Component {
             <div>
                 <div style={styles.title}>Menu</div>
                     <Collapsible transitionTime={100} trigger={<Header open={false} value='Events' />} triggerWhenOpen={<Header open={true} value='Events' />}>
-                        <div>
-                            <label htmlFor="#eventGroupBy">Group By:</label>
-                            <select id="eventGroupBy" onChange={this.handleEventGroupChange}>
-                                <option value="all">All</option>
-                                <option value="type">Action Type</option>
-                            </select>
+                        <div style={styles.panel}>
+                            <div>
+                                <label htmlFor="#eventGroupBy">Group By:</label>
+                                <select id="eventGroupBy" onChange={this.handleEventGroupChange}>
+                                    <option value="all">All</option>
+                                    <option value="type">Action Type</option>
+                                </select>
+                            </div>
                         </div>
                     </Collapsible>
                     <Collapsible transitionTime={100} trigger={<Header open={false} value='Timeline' />} triggerWhenOpen={<Header open={true} value='Timeline' />}>
-                        <div>
-                            <label htmlFor="#timelineRefreshRate">Refresh Rate:</label>
-                            <input type="text" id="timelineRefreshRate" onChange={this.handleRefreshChange} defaultValue={this.props.state.refreshRate} />
-                        </div>
-                        <div>
-                            <label htmlFor="#timelineRange">Range:</label>
-                            <input type="text" id="timelineRange" onChange={this.handleRangeChange} defaultValue={this.props.state.xRange} />
+                        <div style={styles.panel}>
+                            <div>
+                                <label htmlFor="#timelineRefreshRate">Refresh Rate:</label>
+                                <input type="text" id="timelineRefreshRate" onChange={this.handleRefreshChange} defaultValue={this.props.state.refreshRate} />
+                            </div>
+                            <div>
+                                <label htmlFor="#timelineRange">Range:</label>
+                                <input type="text" id="timelineRange" onChange={this.handleRangeChange} defaultValue={this.props.state.xRange} />
+                            </div>
                         </div>
                     </Collapsible>
             </div>

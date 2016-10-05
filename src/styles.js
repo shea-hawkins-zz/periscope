@@ -5,11 +5,13 @@
 let theme = {
     primary: '#539DDB',
     lightPrimary: '#C6E5F3',
-    eLightPrimary: '#ECEFF1',
+    eLightPrimary: '#E0FFFF',
     darkPrimary: '#084A83',
     accent: '#FF4081',
     darkAccent: '#F50057',
-    text: '#FFF'
+    canvas: '#ECEFF1',
+    text: '#FFF',
+    darkText: '#2287CD'
 }
 
 export default {
@@ -25,7 +27,7 @@ export default {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        backgroundColor: theme.eLightPrimary
+        backgroundColor: theme.canvas
     },
     menu: {
         flex: '0 0 18em',
@@ -43,7 +45,7 @@ export default {
         alignItems: 'center',
         fontSize: '1.5em',
         fontWeight: 'bold',
-        color: 'white',
+        color: theme.text,
         backgroundColor: theme.darkPrimary,
         borderRadius: '2px',
         minHeight: '2em',
@@ -56,10 +58,17 @@ export default {
         fontSize: '1em',
         padding: '.5em',
         margin: '.1em',
-        color: 'white',
+        color: theme.text,
         backgroundColor: theme.primary,
         borderRadius: '2px',
         minHeight: '1.5em',
         boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+    },
+    panel: {
+        backgroundColor: theme.eLightPrimary,
+        color: theme.darkText,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-end'
     }
 };
