@@ -1,7 +1,10 @@
 import React, { PropTypes } from 'react';
+import { ActionCreators } from 'redux-devtools';
 import shouldPureComponentUpdate from 'react-pure-render/function';
 import Dock from 'react-dock';
 import Timeline from './smart/Timeline.js';
+
+const { reset, rollback, commit, sweep, toggleAction, jumpToState } = ActionCreators;
 
 // Actions
 export const UPDATE_SHOW = '@@periscope/UPDATE_SHOW_HIDE';
@@ -58,7 +61,6 @@ class Periscope extends React.Component {
     static propTypes = {
         computedStates: PropTypes.array.isRequired,
         currentStateIndex: PropTypes.number.isRequired,
-        jumpToState: PropTypes.func.isRequired,
 
         // stagedActions: PropTypes.array.isRequired,
         // skippedActions: PropTypes.object.isRequired,
@@ -77,10 +79,19 @@ class Periscope extends React.Component {
         })
     };
 
+    constructor(props) {
+        super(props);
+        this.jumpToState = this.jumpToState.bind(this);
+    }
+
+    jumpToState(index) {
+        this.props.dispatch(jumpToState(index));
+    }
+
     shouldComponentUpdate = shouldPureComponentUpdate;
 
-
     render() {
+
         return (
             <Dock position='bottom'
                   isVisible={true}
@@ -91,7 +102,8 @@ class Periscope extends React.Component {
                 <div style={styles.container} >
                     <div style={styles.menu} >MenuBar</div>
                     <div style={styles.timeline} >
-                        <Timeline computedStates={this.props.computedStates} />
+                        <Timeline computedStates={this.props.computedStates}
+                                  jumpToState={this.jumpToState} />
                     </div>
                     <div style={styles.details} >DetailsBar</div>
                 </div>

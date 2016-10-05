@@ -1,23 +1,28 @@
 import React, { PropTypes } from 'react';
 import * as d3 from 'd3';
+
 // Package is not published on NPM and is included manually
 import addTimeline from '../lib/d3-timeline/src/d3-timeline.js';
+// Libary modified to decorate passed in d3 object
 addTimeline(d3);
 
 class Timeline extends React.Component {
     static propTypes = {
-        computedStates: PropTypes.array.isRequired
+        computedStates: PropTypes.array.isRequired,
+        jumpToState: PropTypes.func.isRequired
     }
 
     formatStates(currentStates, nextStates, initTime) {
         let i = currentStates.length;
 
         // If we have hopped back in time, recompute all states.
-        if (i >= nextStates.length) {
+        if (i > nextStates.length) {
             i = 0;
         }
 
         for (i; i < nextStates.length; i++) {
+            console.log(currentStates, nextStates);
+            console.log(i, nextStates.length);
             let nextState = { 
                 ind: i,
                 times: [{
@@ -33,17 +38,19 @@ class Timeline extends React.Component {
         return currentStates;
     }
 
-    renderChart(states, initTime) {
+    renderChart(states, initTime, endTime) {
 
         let colorScale = d3.scale.ordinal()
             .range(['#ffee00','#ef9b0f', '#6b0000'])
             .domain(['active','hover','inactive']);
 
-        // All of these settings could be controlled with slider    
+        // All of these settings could be controlled with slider   
         let xStart = initTime;
         let xEnd = Date.now();
-        let xRange = 900000; 
-        if (xEnd - xStart > xRange) {
+        // To improve usability, the chart always moves on a 90 second range
+        // Range can be scalable after chart animations are in place
+        let xRange = 90000; 
+        if (xEnd - xStart >= 0) {
             xStart = xEnd - xRange;
         }
 
@@ -61,11 +68,11 @@ class Timeline extends React.Component {
             .colors(colorScale)
             .colorProperty('visibilityState')
             .hover((d, i, datum) => {
-                datum.state = 'hover';
+                datum.visibilityState = 'hover';
                 return datum;
             })
             .click((d, i, datum) => {
-                console.log(d);
+                this.props.jumpToState(i);
             });
         d3.select("#timeline").select('svg').remove();
         chart(d3.select("#timeline").append("svg").attr("width", document.getElementById('timeline').offsetWidth)
@@ -81,15 +88,17 @@ class Timeline extends React.Component {
     componentWillReceiveProps(nextProps) {
         this.appStates = this.formatStates(this.appStates, nextProps.computedStates, this.initTime);
         this.renderChart(this.appStates, this.initTime);
-        setInterval(this.renderChart.bind(this, this.appStates, this.initTime), 3000);
-        console.log(this.appStates);
+        console.log(this.props.computedStates);
     }
 
     componentDidMount() {
         this.renderChart(this.appStates, this.initTime);
+        // Weave standard update time of 3 seconds        
+        setInterval(this.renderChart.bind(this, this.appStates, this.initTime), 3000);
     }    
 
     shouldComponentUpdate() {
+        // The rendering of this component is handled by D3
         return false;
     }
     
