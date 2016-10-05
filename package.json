@@ -2,10 +2,10 @@
   "name": "periscope",
   "version": "1.0.0",
   "description": "Redux Periscope: In-depth monitoring for Redux applications",
-  "main": "lib/index.js",
+  "main": "build/index.js",
   "scripts": {
     "clean": "rimraf lib",
-    "build": "babel src --out-dir lib",
+    "build": "babel src --out-dir build",
     "prepublish": "npm run clean && npm run build"
   },
   "repository": {
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/shea-hawkins/periscope#readme",
   "dependencies": {
+    "d3": "^3.4.3",
     "react": "^15.3.2",
     "react-dock": "^0.2.3",
     "react-pure-render": "^1.0.2",

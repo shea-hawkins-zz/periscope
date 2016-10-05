@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import shouldPureComponentUpdate from 'react-pure-render/function';
 import Dock from 'react-dock';
+import Timeline from './smart/Timeline.js';
 
 // Actions
 export const UPDATE_SHOW = '@@periscope/UPDATE_SHOW_HIDE';
@@ -47,14 +48,17 @@ const styles = {
 };
 
 // Component
+// State Structure:
+    // [{state: {}}], at index
+
 
 class Periscope extends React.Component {
     static update = reducer;
 
     static propTypes = {
-        // computedStates: PropTypes.array.isRequired,
-        // currentStateIndex: PropTypes.number.isRequired,
-        // jumpToState: PropTypes.func.isRequired,
+        computedStates: PropTypes.array.isRequired,
+        currentStateIndex: PropTypes.number.isRequired,
+        jumpToState: PropTypes.func.isRequired,
 
         // stagedActions: PropTypes.array.isRequired,
         // skippedActions: PropTypes.object.isRequired,
@@ -75,16 +79,20 @@ class Periscope extends React.Component {
 
     shouldComponentUpdate = shouldPureComponentUpdate;
 
+
     render() {
         return (
             <Dock position='bottom'
                   isVisible={true}
                   defaultSize={.5}
-                  fluid={true}>
+                  fluid={true} 
+                  dimMode='none' >
                 <div>Redux Periscope</div>
                 <div style={styles.container} >
                     <div style={styles.menu} >MenuBar</div>
-                    <div style={styles.timeline} >Timeline!</div>
+                    <div style={styles.timeline} >
+                        <Timeline computedStates={this.props.computedStates} />
+                    </div>
                     <div style={styles.details} >DetailsBar</div>
                 </div>
             </Dock>
