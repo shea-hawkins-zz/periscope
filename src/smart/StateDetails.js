@@ -29,7 +29,7 @@ class StateDetails extends React.Component {
                     <Collapsible transitionTime={100} trigger={<Header open={false} value='State Data' />} triggerWhenOpen={<Header open={true} value='State Data' />}>
                         <div style={styles.panel}>    
                             <JSONTree data={this.props.computedStates[index].state} />
-                        <div/>
+                        </div>
                     </Collapsible>
             </div>
         );

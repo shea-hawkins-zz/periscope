@@ -1,10 +1,10 @@
 {
-  "name": "periscope",
-  "version": "1.0.0",
+  "name": "redux-periscope",
+  "version": "1.0.2",
   "description": "Redux Periscope: In-depth monitoring for Redux applications",
   "main": "build/index.js",
   "scripts": {
-    "clean": "rimraf lib",
+    "clean": "rimraf build",
     "build": "babel src --out-dir build",
     "prepublish": "npm run clean && npm run build"
   },
