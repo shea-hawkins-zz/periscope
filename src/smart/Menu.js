@@ -41,7 +41,7 @@ class Menu extends React.Component {
         return (
             <div>
                 <div style={styles.title}>Menu</div>
-                    <Collapsible trigger={<Header open={false} value='Events' />} triggerWhenOpen={<Header open={true} value='Events' />}>
+                    <Collapsible transitionTime={100} trigger={<Header open={false} value='Events' />} triggerWhenOpen={<Header open={true} value='Events' />}>
                         <div>
                             <label htmlFor="#eventGroupBy">Group By:</label>
                             <select id="eventGroupBy" onChange={this.handleEventGroupChange}>
@@ -50,7 +50,7 @@ class Menu extends React.Component {
                             </select>
                         </div>
                     </Collapsible>
-                    <Collapsible trigger={<Header open={false} value='Timeline' />} triggerWhenOpen={<Header open={true} value='Timeline' />}>
+                    <Collapsible transitionTime={100} trigger={<Header open={false} value='Timeline' />} triggerWhenOpen={<Header open={true} value='Timeline' />}>
                         <div>
                             <label htmlFor="#timelineRefreshRate">Refresh Rate:</label>
                             <input type="text" id="timelineRefreshRate" onChange={this.handleRefreshChange} defaultValue={this.props.state.refreshRate} />

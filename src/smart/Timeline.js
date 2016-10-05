@@ -80,7 +80,7 @@ class Timeline extends React.Component {
 
     renderChart(states, initTime) {
         let colorScale = d3.scale.ordinal()
-            .range(['#ffee00','#ef9b0f', '#6b0000'])
+            .range(['#FF4081', '#ef9b0f', '#3F51B5'])
             .domain(['active','hover','inactive']);
         let xEnd = Date.now();
         let xRange = this.props.xRange; 
@@ -121,7 +121,7 @@ class Timeline extends React.Component {
     render() {
         return (
             <div>
-                <div id="timeline"></div>
+                <div id="timeline"/>
             </div>
         );
     }

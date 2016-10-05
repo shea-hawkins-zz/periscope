@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import Collapsible from 'react-collapsible';
-import JSONTree from 'react-json-tree'
+import JSONTree from 'react-json-tree';
+import Header from '../stateless/Header';
+import styles from '../styles.js';
 
 class StateDetails extends React.Component {
    static propTypes = {
@@ -18,11 +20,11 @@ class StateDetails extends React.Component {
         let index = this.props.currentStateIndex;
         return (
             <div>
-                <div>Active State Index: {index}</div>
-                    <Collapsible trigger="Action Data">
+                <div style={styles.title}>Active State Index: {index}</div>
+                    <Collapsible transitionTime={100} trigger={<Header open={false} value='Action Data' />} triggerWhenOpen={<Header open={true} value='Action Data' />}>
                         <JSONTree data={this.props.actionsById[index].action}/>
                     </Collapsible>
-                    <Collapsible trigger="State Data">
+                    <Collapsible transitionTime={100} trigger={<Header open={false} value='State Data' />} triggerWhenOpen={<Header open={true} value='State Data' />}>
                         <JSONTree data={this.props.computedStates[index].state} />
                     </Collapsible>
             </div>
