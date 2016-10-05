@@ -103,7 +103,8 @@ class Periscope extends React.Component {
                     <div style={styles.menu} >MenuBar</div>
                     <div style={styles.timeline} >
                         <Timeline computedStates={this.props.computedStates}
-                                  jumpToState={this.jumpToState} />
+                                  jumpToState={this.jumpToState}
+                                  currentStateIndex={this.props.currentStateIndex} />
                     </div>
                     <div style={styles.details} >DetailsBar</div>
                 </div>

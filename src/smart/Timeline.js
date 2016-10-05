@@ -9,36 +9,54 @@ addTimeline(d3);
 class Timeline extends React.Component {
     static propTypes = {
         computedStates: PropTypes.array.isRequired,
-        jumpToState: PropTypes.func.isRequired
+        jumpToState: PropTypes.func.isRequired,
+        currentStateIndex: PropTypes.number.isRequired
     }
 
-    formatStates(currentStates, nextStates, initTime) {
+    componentDidMount() {
+        this.initTime = Date.now();
+        this.appStates = this.timestampStates([], this.props.computedStates, this.initTime);
+        this.renderChart(this.appStates, this.initTime);
+        // Weave standard update time of 3 seconds        
+        setInterval(() => this.renderChart(this.appStates, this.initTime), 3000);
+    }    
+
+    componentWillReceiveProps(nextProps) {
+        this.appStates = this.timestampStates(this.appStates, nextProps.computedStates, this.initTime);
+        // Set the active state to active color
+        // @PERF - Track previously active state and mutate array to avoid this map
+        this.appStates = this.appStates.map(state => {
+            state.ind === nextProps.currentStateIndex ? state.visibilityState = 'active' : state.visibilityState = 'inactive';
+            return state;
+        });
+        this.renderChart(this.appStates, this.initTime);
+    }
+
+    timestampStates(currentStates, nextStates, initTime) {
         let i = currentStates.length;
 
-        // If we have hopped back in time, recompute all states.
+        // If we have committed a jump back in time, erase all subsequent states.
         if (i > nextStates.length) {
-            i = 0;
+            currentStates = currentStates.slice(0, nextStates.length);
         }
 
+        // Otherwise we timestamp and add subsequent states
         for (i; i < nextStates.length; i++) {
-            console.log(currentStates, nextStates);
-            console.log(i, nextStates.length);
             let nextState = { 
                 ind: i,
                 times: [{
                     'starting_time': Date.now(),
                     'ending_time': Date.now() + 1,
                     'display': 'circle'
-                }],
-                visibilityState: 'inactive'
+                }]
             };
 
-            currentStates.push(nextState);
+            currentStates[i] = nextState;
         }; 
         return currentStates;
     }
 
-    renderChart(states, initTime, endTime) {
+    renderChart(states, initTime) {
 
         let colorScale = d3.scale.ordinal()
             .range(['#ffee00','#ef9b0f', '#6b0000'])
@@ -67,10 +85,6 @@ class Timeline extends React.Component {
             .ending(xEnd)
             .colors(colorScale)
             .colorProperty('visibilityState')
-            .hover((d, i, datum) => {
-                datum.visibilityState = 'hover';
-                return datum;
-            })
             .click((d, i, datum) => {
                 this.props.jumpToState(i);
             });
@@ -78,24 +92,6 @@ class Timeline extends React.Component {
         chart(d3.select("#timeline").append("svg").attr("width", document.getElementById('timeline').offsetWidth)
             .datum(states));
     }
-    
-    constructor(props) {
-        super(props);
-        this.initTime = Date.now();
-        this.appStates = this.formatStates([], props.computedStates, this.initTime);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        this.appStates = this.formatStates(this.appStates, nextProps.computedStates, this.initTime);
-        this.renderChart(this.appStates, this.initTime);
-        console.log(this.props.computedStates);
-    }
-
-    componentDidMount() {
-        this.renderChart(this.appStates, this.initTime);
-        // Weave standard update time of 3 seconds        
-        setInterval(this.renderChart.bind(this, this.appStates, this.initTime), 3000);
-    }    
 
     shouldComponentUpdate() {
         // The rendering of this component is handled by D3
@@ -105,7 +101,6 @@ class Timeline extends React.Component {
     render() {
         return (
             <div>
-                <div>Timeline!</div>
                 <div id="timeline"></div>
             </div>
         );
