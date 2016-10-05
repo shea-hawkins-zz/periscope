@@ -25,8 +25,9 @@ class Timeline extends React.Component {
         this.appStates = this.timestampStates(this.appStates, nextProps.computedStates, this.initTime);
         // Set the active state to active color
         // @PERF - Track previously active state and mutate array to avoid this map
-        this.appStates = this.appStates.map(state => {
-            state.ind === nextProps.currentStateIndex ? state.visibilityState = 'active' : state.visibilityState = 'inactive';
+        this.appStates = this.appStates.map((state, i) => {
+            state.type = nextProps.actionsById[i].action.type;
+            state.times[0].ind === nextProps.currentStateIndex ? state.visibilityState = 'active' : state.visibilityState = 'inactive';
             return state;
         });
         this.renderChart(this.appStates, this.initTime);
@@ -42,18 +43,34 @@ class Timeline extends React.Component {
 
         // Otherwise we timestamp and add subsequent states
         for (i; i < nextStates.length; i++) {
-            let nextState = { 
-                ind: i,
+            
+            let nextState = {
                 times: [{
+                    'ind': i,
                     'starting_time': Date.now(),
                     'ending_time': Date.now() + 1,
                     'display': 'circle'
                 }]
             };
-
             currentStates[i] = nextState;
         }; 
         return currentStates;
+    }
+
+    // @PERF - Group states as they are timestamped to improve performance on renders
+    groupStates(states, field) {
+        // Groups states together on specified field
+        return states.reduce((mem, state) => {
+            state.times[0].visibilityState = state.visibilityState;
+            for (let i = 0; i < mem.length; i++) {
+                if (mem[i].label === state[field]) {
+                    mem[i].times.push(state.times[0]);
+                    return mem;
+                }
+            }
+            mem.push({label: state.type, times: [state.times[0]]});
+            return mem;
+        }, []);
     }
 
     renderChart(states, initTime) {
@@ -86,8 +103,14 @@ class Timeline extends React.Component {
             .colors(colorScale)
             .colorProperty('visibilityState')
             .click((d, i, datum) => {
-                this.props.jumpToState(i);
+                this.props.jumpToState(d.ind);
             });
+
+        if (this.props.groupBy !== 'all' && this.props.groupBy !== undefined) {
+            chart.stack(true);
+            states = this.groupStates(states, this.props.groupBy); 
+        }
+
         d3.select("#timeline").select('svg').remove();
         chart(d3.select("#timeline").append("svg").attr("width", document.getElementById('timeline').offsetWidth)
             .datum(states));
