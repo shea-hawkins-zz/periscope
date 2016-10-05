@@ -66,7 +66,6 @@ class Periscope extends React.Component {
                   defaultSize={.5}
                   fluid={true} 
                   dimMode='none' >
-                <div>Redux Periscope</div>
                 <div style={styles.container} >
                     <div style={styles.menu}>
                         <Menu dispatch={this.props.dispatch}
