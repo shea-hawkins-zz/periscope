@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import Collapsible from 'react-collapsible';
-import { ActionCreators } from '../actions.js';
+import Header from '../stateless/Header';
+import { ActionCreators } from '../actions';
+import styles from '../styles';
 let { groupChange, rangeChange, refreshChange } = ActionCreators;
 
 class Menu extends React.Component {
@@ -38,23 +40,23 @@ class Menu extends React.Component {
         let index = this.props.currentStateIndex;
         return (
             <div>
-                <div>Menu</div>
-                    <Collapsible trigger="Events">
+                <div style={styles.title}>Menu</div>
+                    <Collapsible trigger={<Header open={false} value='Events' />} triggerWhenOpen={<Header open={true} value='Events' />}>
                         <div>
-                            <label for="#eventGroupBy">Group By:</label>
+                            <label htmlFor="#eventGroupBy">Group By:</label>
                             <select id="eventGroupBy" onChange={this.handleEventGroupChange}>
                                 <option value="all">All</option>
                                 <option value="type">Action Type</option>
                             </select>
                         </div>
                     </Collapsible>
-                    <Collapsible trigger="Timeline">
+                    <Collapsible trigger={<Header open={false} value='Timeline' />} triggerWhenOpen={<Header open={true} value='Timeline' />}>
                         <div>
-                            <label for="#timelineRefreshRate">Refresh Rate:</label>
+                            <label htmlFor="#timelineRefreshRate">Refresh Rate:</label>
                             <input type="text" id="timelineRefreshRate" onChange={this.handleRefreshChange} defaultValue={this.props.state.refreshRate} />
                         </div>
                         <div>
-                            <label for="#timelineRange">Range:</label>
+                            <label htmlFor="#timelineRange">Range:</label>
                             <input type="text" id="timelineRange" onChange={this.handleRangeChange} defaultValue={this.props.state.xRange} />
                         </div>
                     </Collapsible>

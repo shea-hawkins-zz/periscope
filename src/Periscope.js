@@ -3,32 +3,12 @@ import { ActionCreators } from 'redux-devtools';
 import shouldPureComponentUpdate from 'react-pure-render/function';
 import Dock from 'react-dock';
 import reducer from './reducer.js';
+import styles from './styles.js';
 import Menu from './smart/Menu.js';
 import Timeline from './smart/Timeline.js';
 import StateDetails from './smart/StateDetails.js';
 
 const { reset, rollback, commit, sweep, toggleAction, jumpToState } = ActionCreators;
-
-const styles = {
-    container: {
-        display: 'flex',
-        flexDirection: 'row',
-        flex: '1',
-        height: '100%'
-    },
-    timeline: {
-        flex: '1'
-    },
-    menu: {
-        flex: '0 0 18em',
-        order: '-1',
-        backgroundColor: 'lightBlue'
-    },
-    details: {
-        flex: '0 0 18em',
-        backgroundColor: 'pink'
-    }
-};
 
 // Component
 // State Structure:
