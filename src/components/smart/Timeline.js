@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import * as d3 from 'd3';
 
 // Package is not published on NPM and is included manually
-import addTimeline from '../lib/d3-timeline/src/d3-timeline.js';
+import addTimeline from '../../lib/d3-timeline/src/d3-timeline.js';
 // Libary modified to decorate passed in d3 object
 addTimeline(d3);
 

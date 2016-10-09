@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import Collapsible from 'react-collapsible';
 import JSONTree from 'react-json-tree';
 import Header from '../stateless/Header';
-import styles from '../styles.js';
+import styles from '../../styles.js';
 
 class StateDetails extends React.Component {
    static propTypes = {

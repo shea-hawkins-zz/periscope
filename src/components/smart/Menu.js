@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import Collapsible from 'react-collapsible';
 import Header from '../stateless/Header';
-import { ActionCreators } from '../actions';
-import styles from '../styles';
+import { ActionCreators } from '../../actions';
+import styles from '../../styles';
 let { groupChange, rangeChange, refreshChange } = ActionCreators;
 
 class Menu extends React.Component {
