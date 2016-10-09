@@ -18,7 +18,12 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin()
   ],
   resolve: {
-    extensions: ['', '.js']
+    extensions: ['', '.js'],
+    alias: {
+      'redux-periscope': path.join(__dirname, '..', '..', 'src'),
+      'redux-devtools': path.join(__dirname, 'node_modules', 'redux-devtools'),
+      'react': path.join(__dirname, 'node_modules', 'react')
+    }
   },
   resolveLoader: {
     'fallback': path.join(__dirname, 'node_modules')
