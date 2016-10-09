@@ -4,9 +4,9 @@ import shouldPureComponentUpdate from 'react-pure-render/function';
 import Dock from 'react-dock';
 import reducer from './reducer.js';
 import styles from './styles.js';
-import Menu from './smart/Menu.js';
-import Timeline from './smart/Timeline.js';
-import StateDetails from './smart/StateDetails.js';
+import Menu from './components/smart/Menu.js';
+import Timeline from './components/smart/Timeline.js';
+import StateDetails from './components/smart/StateDetails.js';
 
 const { reset, rollback, commit, sweep, toggleAction, jumpToState } = ActionCreators;
 
@@ -19,8 +19,8 @@ class Periscope extends React.Component {
     static update = reducer;
 
     static propTypes = {
-        computedStates: PropTypes.array.isRequired,
-        currentStateIndex: PropTypes.number.isRequired,
+        computedStates: PropTypes.array,
+        currentStateIndex: PropTypes.number,
         actionsById: PropTypes.object,
         dispatch: PropTypes.func,
         monitorState: PropTypes.shape({
