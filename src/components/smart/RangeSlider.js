@@ -12,30 +12,48 @@ class RangeSlider extends React.Component {
     constructor(props) {
         super(props);
         this.loop = this.loop.bind(this);
+        this.renderSlider = this.renderSlider.bind(this);
+        this.current = true;
+        this.range = props.timeStart - props.timeEnd;
     }
 
     componentDidMount() {
+        this.initTime = this.props.timeStart;
         this.rangeSlider = rangeSlider('rangeSlider', {
-            axisDomain: [this.props.timeStart, this.props.timeEnd],
+            // Gives a bit of 'buffer' to the beginning of the axis
+            axisDomain: [this.initTime - 1000, this.props.timeEnd],
             handleDomain: [this.props.timeStart, this.props.timeEnd]
         });
         this.lastRenderTime = Date.now();
         this.loop();
     }
 
+    renderSlider() {
+        // if 'current', then set timeend to current time and timestart to current time minus previous range
+        let timeStart = this.props.timeStart;
+        let timeEnd = this.props.timeEnd;
+        if (this.current) {
+            timeEnd = Date.now();
+            timeStart = timeEnd - (this.props.timeEnd - this.props.timeStart);
+        }
+
+        this.rangeSlider.destroy();
+        this.rangeSlider = rangeSlider('rangeSlider', {
+            axisDomain: [this.initTime - 1000, Date.now()],
+            handleDomain: [timeStart, timeEnd]
+        });
+
+        this.props.dispatch(timeEndChange(timeEnd));
+        this.props.dispatch(timeStartChange(timeStart)); 
+    }
+
     loop() {
-        let dT = Date.now() - this.lastRenderTime;
-        this.props.dispatch(timeEndChange(this.props.timeEnd + dT));
-        this.props.dispatch(timeStartChange(this.props.timeStart + dT));   
-        this.lastRenderTime = Date.now();
+        this.renderSlider();
         setTimeout(this.loop, this.props.refreshRate);
     }
 
-    componentWillReceiveProps() {
-        this.rangeSlider.update({
-            axisDomain: [this.props.timeStart, this.props.timeEnd],
-            handleDomain: [this.props.timeStart, this.props.timeEnd]
-        })
+    handleSliderChange() {
+        
     }
 
     render() {

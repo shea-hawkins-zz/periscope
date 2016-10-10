@@ -18,7 +18,6 @@ export default (id, inputOpts) => {
     inputOpts = inputOpts || {};
     let opts = {
         onRangeChange: inputOpts.onRangeChange || function() {},
-        onDrag: inputOpts.onDrag || function() {},
         width: inputOpts.width || el.offsetWidth,
         height: inputOpts.height || el.offsetHeight,
         handleDomain: inputOpts.handleDomain || [45, 55],
@@ -127,11 +126,16 @@ export default (id, inputOpts) => {
 
     let axis = createAxis(opts);
     rangeSlider.append('g')
+        .attr('id', 'sliderAxis')
         .call(axis)
         .attr('transform', 'translate(0,15)');
     
+    rangeSlider.destroy = () => {
+        rangeSlider.remove();
+    };
+
     rangeSlider.update = (newOpts) => {
-    
+        
     };
     
     return rangeSlider;
