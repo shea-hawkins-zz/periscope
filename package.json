@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/shea-hawkins/periscope#readme",
   "dependencies": {
-    "d3": "^3.4.3",
+    "d3": "^4.2.6",
+    "d3-scale": "^1.0.3",
+    "d3-selection": "^1.0.2",
     "react": "^15.3.2",
     "react-collapsible": "^1.2.0",
     "react-dock": "^0.2.3",

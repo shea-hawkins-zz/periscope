@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import * as d3 from 'd3';
 import RangeSlider from './RangeSlider';
 // Package is not published on NPM and is included manually
-import addTimeline from '../../lib/d3-timeline/src/d3-timeline.js';
+//import addTimeline from '../../lib/d3-timeline/src/d3-timeline.js';
 // Libary modified to decorate passed in d3 object
-addTimeline(d3);
+//addTimeline(d3);
 
 class Timeline extends React.Component {
     static propTypes = {
@@ -79,7 +79,7 @@ class Timeline extends React.Component {
     }
 
     renderChart(states, initTime) {
-        let colorScale = d3.scale.ordinal()
+        let colorScale = d3.scaleOrdinal()
             .range(['#FF4081', '#ef9b0f', '#3F51B5'])
             .domain(['active','hover','inactive']);
         let xEnd = Date.now();
@@ -87,30 +87,30 @@ class Timeline extends React.Component {
         let xStart = xEnd - xRange;
 
         // Must redeclare chart each render. Otherwise it runs into issues -- it must contain state of the previous data.
-        let chart = d3.timeline()
-            .tickFormat({
-                format: d3.time.format('%S'),
-                tickTime: d3.time.seconds,
-                tickInterval: 5,
-                tickSize: 3
-            })
-            .relativeTime()
-            .beginning(xStart)
-            .ending(xEnd)
-            .colors(colorScale)
-            .colorProperty('visibilityState')
-            .click((d, i, datum) => {
-                this.props.jumpToState(d.ind);
-            });
+        // let chart = d3.timeline()
+        //     .tickFormat({
+        //         format: d3.time.format('%S'),
+        //         tickTime: d3.time.seconds,
+        //         tickInterval: 5,
+        //         tickSize: 3
+        //     })
+        //     .relativeTime()
+        //     .beginning(xStart)
+        //     .ending(xEnd)
+        //     .colors(colorScale)
+        //     .colorProperty('visibilityState')
+        //     .click((d, i, datum) => {
+        //         this.props.jumpToState(d.ind);
+        //     });
 
-        if (this.props.groupBy !== 'all' && this.props.groupBy !== undefined) {
-            chart.stack(true);
-            states = this.groupStates(states, this.props.groupBy); 
-        }
+        // if (this.props.groupBy !== 'all' && this.props.groupBy !== undefined) {
+        //     chart.stack(true);
+        //     states = this.groupStates(states, this.props.groupBy); 
+        // }
 
-        d3.select("#timeline").select('svg').remove();
-        chart(d3.select("#timeline").append("svg").attr("width", document.getElementById('timeline').offsetWidth)
-            .datum(states));
+        // d3.select("#timeline").select('svg').remove();
+        // chart(d3.select("#timeline").append("svg").attr("width", document.getElementById('timeline').offsetWidth)
+        //     .datum(states));
     }
 
     shouldComponentUpdate() {

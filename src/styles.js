@@ -70,5 +70,8 @@ export default {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-end'
+    },
+    rangeSlider: {
+        height: '100%'
     }
 };
