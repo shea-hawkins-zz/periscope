@@ -1,10 +1,12 @@
 # Periscope
 Redux Periscope: In-depth monitoring for Redux applications
 
-![N|Solid](http://i.imgur.com/k0S4yAK.png)
+![N|Solid](http://i.imgur.com/q6FuK9C.png)
 
 # Features
 * Click each state on the timeline to hop to it!
+* Drag timeline slider to view your application at all times!
+* Drag slider handles to change the viewable timeline range!
 * View state and action details in depth!
 * Group action events by type!
 * Adjust the dock to hide the tools!
