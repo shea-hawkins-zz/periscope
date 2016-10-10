@@ -15,7 +15,10 @@ class RangeSlider extends React.Component {
     }
 
     componentDidMount() {
-        this.rangeSlider = rangeSlider('rangeSlider', {});
+        this.rangeSlider = rangeSlider('rangeSlider', {
+            axisDomain: [this.props.timeStart, this.props.timeEnd],
+            handleDomain: [this.props.timeStart, this.props.timeEnd]
+        });
         this.lastRenderTime = Date.now();
         this.loop();
     }
@@ -29,6 +32,10 @@ class RangeSlider extends React.Component {
     }
 
     componentWillReceiveProps() {
+        this.rangeSlider.update({
+            axisDomain: [this.props.timeStart, this.props.timeEnd],
+            handleDomain: [this.props.timeStart, this.props.timeEnd]
+        })
     }
 
     render() {

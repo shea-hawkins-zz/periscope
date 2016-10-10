@@ -25,7 +25,7 @@ function timeEnd(props, state = Date.now(), action) {
         state;
 }
 
-function refreshRate(props, state = 3000, action) {
+function refreshRate(props, state = 500, action) {
     return action.type === TIMELINE_REFRESH_CHANGE ?
         action.refreshRate :
         state;
