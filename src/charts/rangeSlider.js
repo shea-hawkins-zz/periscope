@@ -23,7 +23,7 @@ export default (id, inputOpts) => {
         height: inputOpts.height || el.offsetHeight,
         handleDomain: inputOpts.handleDomain || [45, 55],
         axisDomain: inputOpts.axisDomain || [0, 100],
-        axisRange: inputOpts.axisRange || [10, el.offsetWidth - 10],
+        axisRange: inputOpts.axisRange || [30, el.offsetWidth - 30],
         ticks: inputOpts.ticks || 10,
         theme: inputOpts.theme || {
             handles: '#539DDB',
@@ -130,9 +130,6 @@ export default (id, inputOpts) => {
         .call(axis)
         .attr('transform', 'translate(0,15)');
     
-    
-
-
     rangeSlider.update = (newOpts) => {
     
     };
