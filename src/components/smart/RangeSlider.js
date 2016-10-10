@@ -13,7 +13,7 @@ class RangeSlider extends React.Component {
 
     render() {
         return (
-            <div id="rangeSlider" style={styles.rangeSlider}>I'm a rangeslider!</div>
+            <div id="rangeSlider" style={styles.rangeSlider}></div>
         )
     }
 }

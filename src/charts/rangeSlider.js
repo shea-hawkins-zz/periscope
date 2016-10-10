@@ -25,7 +25,10 @@ export default (id, inputOpts) => {
         axisDomain: inputOpts.axisDomain || [0, 100],
         axisRange: inputOpts.axisRange || [10, el.offsetWidth - 10],
         ticks: inputOpts.ticks || 10,
-        theme: {}
+        theme: inputOpts.theme || {
+            handles: '#539DDB',
+            body: '#C6E5F3'
+        }
     };
 
 
@@ -37,10 +40,6 @@ export default (id, inputOpts) => {
      let scale = d3.scaleLinear()
                     .domain(opts.axisDomain)
                     .range(opts.axisRange);
-
-    let leftSliderPos = scale(opts.handleDomain[0]);
-    let rightSliderPos = scale(opts.handleDomain[1]);
-    let sliderWidth = rightSliderPos - leftSliderPos;
 
     let drag = function(d, i) {
         let entity = d3.select(this),
@@ -82,24 +81,26 @@ export default (id, inputOpts) => {
                     opts.onRangeChange([scale.invert(leftXPrime), scale.invert(rightXPrime)]);
                 }
             break;
-        }
-        
+        }  
     };
 
     let sliderDrag = d3.drag()
-                        .on('start', drag)
-                        .on('drag', drag)
-                        .on('end', drag);
+                    .on('start', drag)
+                    .on('drag', drag)
+                    .on('end', drag);
+
+    let leftSliderPos = scale(opts.handleDomain[0]);
+    let rightSliderPos = scale(opts.handleDomain[1]);
+    let sliderWidth = rightSliderPos - leftSliderPos;
 
     rangeSlider.append('a')
         .attr('xlink:href', '#')
         .append('rect')
             .attr('id', 'handleLeft')            
             .attr('x', leftSliderPos)
-            .attr('y', 10)
             .attr('height', 15)
             .attr('width', 5)
-            .style('fill', 'green')
+            .style('fill', opts.theme.handle)
             .attr('rx', 1)
             .attr('ry', 1)
             .call(sliderDrag);
@@ -108,27 +109,26 @@ export default (id, inputOpts) => {
         .append('rect')
             .attr('id', 'handleBody')          
             .attr('x', leftSliderPos + 5) // accounting for width of sliders
-            .attr('y', 10)
             .attr('height', 15)
             .attr('width', sliderWidth - 5)
-            .style('fill', 'lightgreen')
+            .style('fill', opts.theme.body)
             .call(sliderDrag);
     rangeSlider.append('a')
         .attr('xlink:href', '#')
         .append('rect')
             .attr('id', 'handleRight')        
             .attr('x', rightSliderPos)
-            .attr('y', 10)
             .attr('height', 15)
             .attr('width', 5)
-            .style('fill', 'green')
+            .style('fill', opts.theme.handle)
             .attr('rx', 1)
             .attr('ry', 1)
             .call(sliderDrag);
 
     let axis = createAxis(opts);
     rangeSlider.append('g')
-        .call(axis);
+        .call(axis)
+        .attr('transform', 'translate(0,15)');
     
     
 
