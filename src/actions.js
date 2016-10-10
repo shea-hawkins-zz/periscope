@@ -1,11 +1,15 @@
 const EVENT_GROUP_CHANGE = '@@periscope/EVENT_GROUP_CHANGE';
 const TIMELINE_RANGE_CHANGE = '@@periscope/TIMELINE_RANGE_CHANGE';
 const TIMELINE_REFRESH_CHANGE = '@@periscope/TIMELINE_REFRESH_CHANGE';
+const SLIDER_START_CHANGE = '@@periscope/TIMELINE_START_CHANGE';
+const SLIDER_END_CHANGE = '@@periscope/TIMELINE_END_CHANGE';
 
 let ActionTypes = {
     EVENT_GROUP_CHANGE,
     TIMELINE_RANGE_CHANGE,
-    TIMELINE_REFRESH_CHANGE
+    TIMELINE_REFRESH_CHANGE,
+    SLIDER_START_CHANGE,
+    SLIDER_END_CHANGE
 };
 
 export { ActionTypes };
@@ -31,10 +35,26 @@ const rangeChange = function(range) {
     };
 };
 
+const timeStartChange = function(time) {
+    return {
+        type: SLIDER_START_CHANGE,
+        timeStart: time
+    };
+};
+
+const timeEndChange = function(time) {
+    return {
+        type: SLIDER_END_CHANGE,
+        timeEnd: time
+    };
+};
+
 let ActionCreators = {
     groupChange,
     rangeChange,
-    refreshChange
+    refreshChange,
+    timeStartChange,
+    timeEndChange
 };
 
 export { ActionCreators };

@@ -1,9 +1,8 @@
 import React, { PropTypes } from 'react';
 import * as d3 from 'd3';
-
-// Package is not published on NPM and is included manually
+//Package is not published on NPM and is included manually
 import addTimeline from '../../lib/d3-timeline/src/d3-timeline.js';
-// Libary modified to decorate passed in d3 object
+//Libary modified to decorate passed in d3 object
 addTimeline(d3);
 
 class Timeline extends React.Component {
@@ -17,7 +16,6 @@ class Timeline extends React.Component {
         this.initTime = Date.now();
         this.appStates = this.timestampStates([], this.props.computedStates, this.initTime);
         this.renderChart(this.appStates, this.initTime);    
-        this.renderLoop();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -32,11 +30,6 @@ class Timeline extends React.Component {
             return state;
         });
         this.renderChart(this.appStates, this.initTime);
-    }
-
-    renderLoop() {
-        this.renderChart(this.appStates, this.initTime);
-        setTimeout(() => this.renderLoop(), this.props.refreshRate);
     }
 
     timestampStates(currentStates, nextStates, initTime) {
@@ -79,24 +72,21 @@ class Timeline extends React.Component {
     }
 
     renderChart(states, initTime) {
-        let colorScale = d3.scale.ordinal()
+        let colorScale = d3.scaleOrdinal()
             .range(['#FF4081', '#ef9b0f', '#3F51B5'])
             .domain(['active','hover','inactive']);
-        let xEnd = Date.now();
-        let xRange = this.props.xRange; 
-        let xStart = xEnd - xRange;
-
-        // Must redeclare chart each render. Otherwise it runs into issues -- it must contain state of the previous data.
+        //Must redeclare chart each render. Otherwise it runs into issues -- it must contain state of the previous data.
         let chart = d3.timeline()
             .tickFormat({
-                format: d3.time.format('%S'),
-                tickTime: d3.time.seconds,
+                format: d3.timeFormat('%S'),
+                tickTime: d3.timeSeconds,
                 tickInterval: 5,
                 tickSize: 3
             })
+            .width(document.getElementById('timeline').offsetWidth)
             .relativeTime()
-            .beginning(xStart)
-            .ending(xEnd)
+            .beginning(this.props.timeStart)
+            .ending(this.props.timeEnd)
             .colors(colorScale)
             .colorProperty('visibilityState')
             .click((d, i, datum) => {
@@ -120,9 +110,7 @@ class Timeline extends React.Component {
     
     render() {
         return (
-            <div>
-                <div id="timeline"/>
-            </div>
+            <div id="timeline"/>
         );
     }
 };

@@ -58,10 +58,6 @@ class Menu extends React.Component {
                                 <label htmlFor="#timelineRefreshRate">Refresh Rate:</label>
                                 <input type="text" id="timelineRefreshRate" onChange={this.handleRefreshChange} defaultValue={this.props.state.refreshRate} />
                             </div>
-                            <div>
-                                <label htmlFor="#timelineRange">Range:</label>
-                                <input type="text" id="timelineRange" onChange={this.handleRangeChange} defaultValue={this.props.state.xRange} />
-                            </div>
                         </div>
                     </Collapsible>
             </div>
