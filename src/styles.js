@@ -72,6 +72,8 @@ export default {
         alignItems: 'flex-end'
     },
     rangeSlider: {
-        height: '100%'
+        height: '20%',
+        flex: '1',
+        justifySelf: 'flex-end'
     }
 };

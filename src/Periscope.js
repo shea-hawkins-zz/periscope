@@ -6,6 +6,7 @@ import reducer from './reducer.js';
 import styles from './styles.js';
 import Menu from './components/smart/Menu.js';
 import Timeline from './components/smart/Timeline.js';
+import RangeSlider from './components/smart/RangeSlider';
 import StateDetails from './components/smart/StateDetails.js';
 
 const { reset, rollback, commit, sweep, toggleAction, jumpToState } = ActionCreators;
@@ -40,6 +41,7 @@ class Periscope extends React.Component {
     shouldComponentUpdate = shouldPureComponentUpdate;
 
     render() {
+        let state = this.props.monitorState;
         return (
             <Dock position='bottom'
                   isVisible={true}
@@ -49,16 +51,21 @@ class Periscope extends React.Component {
                 <div style={styles.container} >
                     <div style={styles.menu}>
                         <Menu dispatch={this.props.dispatch}
-                              state={this.props.monitorState} />
+                              state={state} />
                     </div>
                     <div style={styles.timeline} >
                         <Timeline computedStates={this.props.computedStates}
                                   actionsById={this.props.actionsById}
-                                  groupBy={this.props.monitorState.groupBy}
-                                  xRange={this.props.monitorState.xRange}
-                                  refreshRate={this.props.monitorState.refreshRate}
+                                  groupBy={state.groupBy}
+                                  timeStart={state.timeStart}
+                                  timeEnd={state.timeEnd}
                                   jumpToState={this.jumpToState}
                                   currentStateIndex={this.props.currentStateIndex} />
+                         <RangeSlider timeStart={state.timeStart} 
+                                      timeEnd={state.timeEnd} 
+                                      refreshRate={state.refreshRate} 
+                                      dispatch={this.props.dispatch} />
+
                     </div>
                     <div style={styles.details} >
                         <StateDetails computedStates={this.props.computedStates}
