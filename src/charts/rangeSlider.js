@@ -7,7 +7,8 @@ const createAxis = (opts) => {
                     .range(opts.axisRange);
 
     let axis = d3.axisBottom(scale);
-    axis.ticks(opts.ticks);
+    axis.ticks(opts.ticks)
+        .tickFormat(d3.timeFormat("%I:%M:%S"));
     return axis;
 };
 
