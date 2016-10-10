@@ -42,34 +42,76 @@ export default (id, inputOpts) => {
     let rightSliderPos = scale(opts.handleDomain[1]);
     let sliderWidth = rightSliderPos - leftSliderPos;
 
-    rangeSlider.append("a")
-        .attr("xlink:href", "http://en.wikipedia.org/wiki/")
-        .append('rect')
-            .attr("x", leftSliderPos)
-            .attr("y", 10)
-            .attr("height", 15)
-            .attr("width", 5)
-            .style("fill", "green")
-            .attr("rx", 1)
-            .attr("ry", 1);
+    let drag = function(d, i) {
+        let entity = d3.select(this);
+        let handleLeft = d3.select('#handleLeft');
+        let handleBody = d3.select('#handleBody');        
+        let handleRight = d3.select('#handleRight');
+        switch(entity.attr('id')) {
+            case 'handleLeft':
+                handleLeft
+                    .attr('x', Number(handleLeft.attr('x')) + d3.event.dx);
+                handleBody
+                    .attr('x', Number(handleBody.attr('x')) + d3.event.dx)
+                    .attr('width', Number(handleBody.attr('width')) - d3.event.dx);
+            break;
+            case 'handleRight':
+                handleRight
+                    .attr('x', Number(handleRight.attr('x')) + d3.event.dx);
+                handleBody
+                    .attr('width', Number(handleBody.attr('width')) + d3.event.dx);
+            break;
+            case 'handleBody':
+                handleLeft
+                    .attr('x', Number(handleLeft.attr('x')) + d3.event.dx);
+                handleBody
+                    .attr('x', Number(handleBody.attr('x')) + d3.event.dx);
+                handleRight
+                    .attr('x', Number(handleRight.attr('x')) + d3.event.dx);
+
+            break;
+        }
+    };
+
+    let sliderDrag = d3.drag()
+                        .on('start', drag)
+                        .on('drag', drag)
+                        .on('end', drag);
+
     rangeSlider.append('a')
-        .attr("xlink:href", "http://en.wikipedia.org/wiki/")
-        .append("rect")  
-            .attr("x", leftSliderPos + 5) // accounting for width of sliders
-            .attr("y", 10)
-            .attr("height", 15)
-            .attr("width", sliderWidth - 5)
-            .style("fill", "lightgreen");
-    rangeSlider.append("a")
-        .attr("xlink:href", "http://en.wikipedia.org/wiki/")
+        .attr('xlink:href', '#')
         .append('rect')
-            .attr("x", rightSliderPos)
-            .attr("y", 10)
-            .attr("height", 15)
-            .attr("width", 5)
-            .style("fill", "green")
-            .attr("rx", 1)
-            .attr("ry", 1);
+            .attr('id', 'handleLeft')            
+            .attr('x', leftSliderPos)
+            .attr('y', 10)
+            .attr('height', 15)
+            .attr('width', 5)
+            .style('fill', 'green')
+            .attr('rx', 1)
+            .attr('ry', 1)
+            .call(sliderDrag);
+    rangeSlider.append('a')
+        .attr('xlink:href', '#')
+        .append('rect')
+            .attr('id', 'handleBody')          
+            .attr('x', leftSliderPos + 5) // accounting for width of sliders
+            .attr('y', 10)
+            .attr('height', 15)
+            .attr('width', sliderWidth - 5)
+            .style('fill', 'lightgreen')
+            .call(sliderDrag);
+    rangeSlider.append('a')
+        .attr('xlink:href', '#')
+        .append('rect')
+            .attr('id', 'handleRight')        
+            .attr('x', rightSliderPos)
+            .attr('y', 10)
+            .attr('height', 15)
+            .attr('width', 5)
+            .style('fill', 'green')
+            .attr('rx', 1)
+            .attr('ry', 1)
+            .call(sliderDrag);
 
     let axis = createAxis(opts);
     rangeSlider.append('g')
