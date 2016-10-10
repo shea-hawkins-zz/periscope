@@ -43,34 +43,47 @@ export default (id, inputOpts) => {
     let sliderWidth = rightSliderPos - leftSliderPos;
 
     let drag = function(d, i) {
-        let entity = d3.select(this);
-        let handleLeft = d3.select('#handleLeft');
-        let handleBody = d3.select('#handleBody');        
-        let handleRight = d3.select('#handleRight');
+        let entity = d3.select(this),
+            handleLeft = d3.select('#handleLeft'),
+            handleBody = d3.select('#handleBody'),        
+            handleRight = d3.select('#handleRight'),
+            leftX = Number(handleLeft.attr('x')),
+            leftXPrime = leftX + d3.event.dx,
+            rightX = Number(handleRight.attr('x')),
+            rightXPrime = rightX + d3.event.dx;
         switch(entity.attr('id')) {
             case 'handleLeft':
-                handleLeft
-                    .attr('x', Number(handleLeft.attr('x')) + d3.event.dx);
-                handleBody
-                    .attr('x', Number(handleBody.attr('x')) + d3.event.dx)
-                    .attr('width', Number(handleBody.attr('width')) - d3.event.dx);
+                if (leftXPrime >= opts.axisRange[0] && leftXPrime < rightX - 6) {
+                    handleLeft
+                        .attr('x', leftXPrime);
+                    handleBody
+                        .attr('x', Number(handleBody.attr('x')) + d3.event.dx)
+                        .attr('width', Number(handleBody.attr('width')) - d3.event.dx);
+                    opts.onRangeChange([scale.invert(leftXPrime), scale.invert(rightX)]);
+                }                
             break;
             case 'handleRight':
-                handleRight
-                    .attr('x', Number(handleRight.attr('x')) + d3.event.dx);
-                handleBody
-                    .attr('width', Number(handleBody.attr('width')) + d3.event.dx);
+                if (rightXPrime <= opts.axisRange[1] && rightXPrime > leftX + 6) {
+                    handleRight
+                        .attr('x', rightXPrime);
+                    handleBody
+                        .attr('width', Number(handleBody.attr('width')) + d3.event.dx);
+                    opts.onRangeChange([scale.invert(leftX), scale.invert(rightXPrime)]);
+                }
             break;
             case 'handleBody':
-                handleLeft
-                    .attr('x', Number(handleLeft.attr('x')) + d3.event.dx);
-                handleBody
-                    .attr('x', Number(handleBody.attr('x')) + d3.event.dx);
-                handleRight
-                    .attr('x', Number(handleRight.attr('x')) + d3.event.dx);
-
+                if (leftXPrime >= opts.axisRange[0] && rightXPrime <= opts.axisRange[1]) {
+                    handleLeft
+                        .attr('x', leftXPrime);
+                    handleBody
+                        .attr('x', Number(handleBody.attr('x')) + d3.event.dx);
+                    handleRight
+                        .attr('x', rightXPrime);
+                    opts.onRangeChange([scale.invert(leftXPrime), scale.invert(rightXPrime)]);
+                }
             break;
         }
+        
     };
 
     let sliderDrag = d3.drag()
