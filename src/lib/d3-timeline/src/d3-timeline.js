@@ -16,13 +16,13 @@ export default function (d3) {
         height = null,
         rowSeparatorsColor = null,
         backgroundColor = null,
-        tickFormat = { format: d3.time.format("%I %p"),
-          tickTime: d3.time.hours,
+        tickFormat = { format: d3.timeFormat("%I %p"),
+          tickTime: d3.timeHours,
           tickInterval: 1,
           tickSize: 6,
           tickValues: null
         },
-        colorCycle = d3.scale.category20(),
+        colorCycle = d3.schemeCategory20,
         colorPropertyName = null,
         display = "rect",
         beginning = 0,
@@ -158,9 +158,11 @@ export default function (d3) {
 
     function timeline (gParent) {
       var g = gParent.append("g");
-      var gParentSize = gParent[0][0].getBoundingClientRect();
+      var gParentNode= gParent.node().parentNode;
+      var gParentItem = d3.select(gParentNode);
+      var gParentSize = gParentNode.getBoundingClientRect();
 
-      var gParentItem = d3.select(gParent[0][0]);
+
 
       var yAxisMapping = {},
         maxStack = 1,
@@ -222,23 +224,21 @@ export default function (d3) {
       }
 
       var scaleFactor = (1/(ending - beginning)) * (width - margin.left - margin.right);
-
       // draw the axis
-      var xScale = d3.time.scale()
+      var xScale = d3.scaleTime()
         .domain([beginning, ending])
         .range([margin.left, width - margin.right]);
 
-      var xAxis = d3.svg.axis()
-        .scale(xScale)
-        .orient(orient)
+      var xAxis = d3.axisBottom(xScale)
         .tickFormat(tickFormat.format)
         .tickSize(tickFormat.tickSize);
 
-      if (tickFormat.tickValues != null) {
-        xAxis.tickValues(tickFormat.tickValues);
-      } else {
-        xAxis.ticks(tickFormat.numTicks || tickFormat.tickTime, tickFormat.tickInterval);
-      }
+
+      // if (tickFormat.tickValues != null) {
+      //   xAxis.tickValues(tickFormat.tickValues);
+      // } else {
+      //   xAxis.ticks(tickFormat.numTicks || tickFormat.tickTime, tickFormat.tickInterval);
+      // }
 
       // draw the chart
       g.each(function(d, i) {
@@ -256,7 +256,7 @@ export default function (d3) {
 
           g.selectAll("svg").data(data).enter()
             .append(function(d, i) {
-                return document.createElementNS(d3.ns.prefix.svg, "display" in d? d.display:display);
+                return document.createElementNS(d3.namespaces.svg, "display" in d? d.display:display);
             })
             .attr("x", getXPos)
             .attr("y", getStackPosition)
@@ -385,7 +385,7 @@ export default function (d3) {
           });
       }
 
-      var gSize = g[0][0].getBoundingClientRect();
+      var gSize = g.node().getBoundingClientRect();
       setHeight();
 
       if (showBorderLine) {
@@ -419,7 +419,7 @@ export default function (d3) {
             // set height based off of item height
             height = gSize.height + gSize.top - gParentSize.top;
             // set bounding rectangle height
-            d3.select(gParent[0][0]).attr("height", height);
+            d3.select(gParentNode).attr("height", height);
           } else {
             throw "height of the timeline is not set";
           }
