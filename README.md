@@ -1,7 +1,7 @@
 # Periscope
 Redux Periscope: In-depth monitoring for Redux applications
 
-![N|Solid](http://i.imgur.com/q6FuK9C.png)
+![N|Solid](http://i.imgur.com/IZws0Zc.png)
 
 # Features
 * Click each state on the timeline to hop to it!
