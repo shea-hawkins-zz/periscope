@@ -5,6 +5,7 @@ import Dock from 'react-dock';
 import reducer from './reducer.js';
 import styles from './styles.js';
 import Menu from './components/smart/Menu.js';
+import Header from './components/stateless/Header.js';
 import Timeline from './components/smart/Timeline.js';
 import RangeSlider from './components/smart/RangeSlider';
 import StateDetails from './components/smart/StateDetails.js';
@@ -54,6 +55,11 @@ class Periscope extends React.Component {
                               state={state} />
                     </div>
                     <div style={styles.timeline} >
+                        <Header value={'Timeline'}/>
+                        <RangeSlider timeStart={state.timeStart} 
+                                      timeEnd={state.timeEnd} 
+                                      refreshRate={state.refreshRate} 
+                                      dispatch={this.props.dispatch} />
                         <Timeline computedStates={this.props.computedStates}
                                   actionsById={this.props.actionsById}
                                   groupBy={state.groupBy}
@@ -61,10 +67,6 @@ class Periscope extends React.Component {
                                   timeEnd={state.timeEnd}
                                   jumpToState={this.jumpToState}
                                   currentStateIndex={this.props.currentStateIndex} />
-                         <RangeSlider timeStart={state.timeStart} 
-                                      timeEnd={state.timeEnd} 
-                                      refreshRate={state.refreshRate} 
-                                      dispatch={this.props.dispatch} />
 
                     </div>
                     <div style={styles.details} >
