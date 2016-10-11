@@ -37,10 +37,11 @@ export default {
     },
     details: {
         flex: '0 0 18em',
+        overflowY: 'scroll',
         backgroundColor: theme.lightPrimary
     },
     title: {
-        display: 'flex',
+        display: 'none',
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: '1.5em',
@@ -55,6 +56,7 @@ export default {
     header: {
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'center',
         fontSize: '1em',
         padding: '.5em',
         margin: '.1em',
@@ -64,16 +66,28 @@ export default {
         minHeight: '1.5em',
         boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
     },
-    panel: {
+    panelLeft: {
         backgroundColor: theme.eLightPrimary,
         color: theme.darkText,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-end'
     },
+    panelRight: {
+        backgroundColor: theme.eLightPrimary,
+        color: theme.darkText,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start'
+    },
     rangeSlider: {
-        height: '20%',
+        height: '10%',
+        marginTop: '1em',
         flex: '1',
         justifySelf: 'flex-end'
+    },
+    input: {
+        width: '8em'
     }
 };
+
