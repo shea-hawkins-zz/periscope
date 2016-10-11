@@ -1,7 +1,7 @@
 import { ActionTypes } from './actions';
 const { EVENT_GROUP_CHANGE, TIMELINE_RANGE_CHANGE, TIMELINE_REFRESH_CHANGE, SLIDER_START_CHANGE, SLIDER_END_CHANGE } = ActionTypes;
 
-function groupBy(props, state = 'all', action) {
+function groupBy(props, state = 'type', action) {
     return action.type === EVENT_GROUP_CHANGE ?
         action.groupBy :
         state;

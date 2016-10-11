@@ -66,7 +66,6 @@ class RangeSlider extends React.Component {
             clearTimeout(this.handle);
         }
         this.handle = setTimeout(() => this.isDragging = false, 500);
-        console.log(this.axisEnd - range[1]);
         // Snaps the slider to the end of the range if the end slider is within 100 miliseconds of the end
         this.current = this.axisEnd - range[1] < 200;
 

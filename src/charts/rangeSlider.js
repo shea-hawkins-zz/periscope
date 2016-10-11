@@ -6,7 +6,7 @@ const createAxis = (opts) => {
                     .domain(opts.axisDomain)
                     .range(opts.axisRange);
 
-    let axis = d3.axisBottom(scale);
+    let axis = d3.axisTop(scale);
     axis.ticks(opts.ticks)
         .tickFormat(d3.timeFormat("%I:%M:%S"));
     return axis;
@@ -83,7 +83,6 @@ export default (id, inputOpts) => {
             break;
         }  
     };
-
     let sliderDrag = d3.drag()
                     .on('start', drag)
                     .on('drag', drag)
@@ -92,12 +91,12 @@ export default (id, inputOpts) => {
     let leftSliderPos = scale(opts.handleDomain[0]);
     let rightSliderPos = scale(opts.handleDomain[1]);
     let sliderWidth = rightSliderPos - leftSliderPos;
-
     rangeSlider.append('a')
         .attr('xlink:href', '#')
         .append('rect')
             .attr('id', 'handleLeft')            
             .attr('x', leftSliderPos)
+            .attr('y', 20)
             .attr('height', 15)
             .attr('width', 5)
             .style('fill', opts.theme.handle)
@@ -109,6 +108,7 @@ export default (id, inputOpts) => {
         .append('rect')
             .attr('id', 'handleBody')          
             .attr('x', leftSliderPos + 5) // accounting for width of sliders
+            .attr('y', 20)
             .attr('height', 15)
             .attr('width', sliderWidth - 5)
             .style('fill', opts.theme.body)
@@ -118,6 +118,7 @@ export default (id, inputOpts) => {
         .append('rect')
             .attr('id', 'handleRight')        
             .attr('x', rightSliderPos)
+            .attr('y', 20)
             .attr('height', 15)
             .attr('width', 5)
             .style('fill', opts.theme.handle)
@@ -129,7 +130,7 @@ export default (id, inputOpts) => {
     rangeSlider.append('g')
         .attr('id', 'sliderAxis')
         .call(axis)
-        .attr('transform', 'translate(0,15)');
+        .attr('transform', 'translate(0,20)');
     
     rangeSlider.destroy = () => {
         rangeSlider.remove();
