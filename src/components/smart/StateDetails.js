@@ -21,13 +21,13 @@ class StateDetails extends React.Component {
         return (
             <div>
                 <div style={styles.title}>Active State Index: {index}</div>
-                    <Collapsible transitionTime={100} trigger={<Header open={false} value='Action Data' />} triggerWhenOpen={<Header open={true} value='Action Data' />}>
-                        <div style={styles.panel}>
+                    <Collapsible transitionTime={100} trigger={<Header open={false} value='Action' />} triggerWhenOpen={<Header open={true} value='Action' />}>
+                        <div style={styles.panelRight}>
                             <JSONTree data={this.props.actionsById[index].action}/>
                         </div>
                     </Collapsible>
-                    <Collapsible transitionTime={100} trigger={<Header open={false} value='State Data' />} triggerWhenOpen={<Header open={true} value='State Data' />}>
-                        <div style={styles.panel}>    
+                    <Collapsible transitionTime={100} trigger={<Header open={false} value='State' />} triggerWhenOpen={<Header open={true} value='State' />}>
+                        <div style={styles.panelRight}>    
                             <JSONTree data={this.props.computedStates[index].state} />
                         </div>
                     </Collapsible>
