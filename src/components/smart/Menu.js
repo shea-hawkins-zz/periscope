@@ -42,21 +42,21 @@ class Menu extends React.Component {
             <div>
                 <div style={styles.title}>Menu</div>
                     <Collapsible transitionTime={100} trigger={<Header open={false} value='Events' />} triggerWhenOpen={<Header open={true} value='Events' />}>
-                        <div style={styles.panel}>
+                        <div style={styles.panelLeft}>
                             <div>
                                 <label htmlFor="#eventGroupBy">Group By:</label>
-                                <select id="eventGroupBy" onChange={this.handleEventGroupChange}>
+                                <select id="eventGroupBy" style={styles.input} onChange={this.handleEventGroupChange} defaultValue='type'>
                                     <option value="all">All</option>
                                     <option value="type">Action Type</option>
                                 </select>
                             </div>
                         </div>
                     </Collapsible>
-                    <Collapsible transitionTime={100} trigger={<Header open={false} value='Timeline' />} triggerWhenOpen={<Header open={true} value='Timeline' />}>
-                        <div style={styles.panel}>
+                    <Collapsible transitionTime={100} trigger={<Header open={false} value='Settings' />} triggerWhenOpen={<Header open={true} value='Settings' />}>
+                        <div style={styles.panelLeft}>
                             <div>
                                 <label htmlFor="#timelineRefreshRate">Refresh Rate:</label>
-                                <input type="text" id="timelineRefreshRate" onChange={this.handleRefreshChange} defaultValue={this.props.state.refreshRate} />
+                                <input type="number" style={styles.input} id="timelineRefreshRate" onChange={this.handleRefreshChange} defaultValue={this.props.state.refreshRate} />
                             </div>
                         </div>
                     </Collapsible>
